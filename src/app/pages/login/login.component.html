@@ -1,0 +1,21 @@
+<section class="login-page-container">
+    <div>
+  <img src="../../../assets/Pokemon-HD-Desktop-Wallpaper-37669.jpg" alt="pokemon" class="pokemon-image">
+    </div>
+    <div class="user-login-form">
+     
+        <div class="user-login">
+          
+            <form [formGroup]="form" (ngSubmit)="onSubmit(form)" class="login-form">
+              
+            <app-input class="input-field" type="text" label = "email" placeholder="Enter Email" formControlName="email"  ></app-input>
+            <span *ngIf=" form.get('email')!.hasError('email') ">* Email is required and should be valid</span>
+              
+            <app-input class="input-field" type="password" label = "password" placeholder="Enter Password"  formControlName="password"  ></app-input>
+            <span *ngIf=" form.get('password')!.hasError('minlength')">* Password is required and should be valid</span>
+            <app-button  [form] = "form">Login</app-button>
+         
+            </form>
+        </div>
+    </div>
+</section>

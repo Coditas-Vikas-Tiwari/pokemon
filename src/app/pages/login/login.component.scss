@@ -1,0 +1,58 @@
+.login-page-container{
+    display: grid;
+    grid-template-columns: 5fr 1.5fr;
+
+    margin: 0.25rem;
+    height: 100vh;
+   
+}
+
+.user-login-form {
+display: flex;
+flex-direction: column;
+justify-content: center;
+background-color: gray;
+}
+.user-login {
+   
+    display: flex; 
+    margin: 1rem; 
+    background-color: white;
+    color: black;
+    font-family: cursive;
+    border-radius: 8px;
+    
+}
+
+.pokemon-image{
+  width: 100%;
+ margin: 0;
+ height: 100vh;
+ background-size: cover;
+}
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   padding: 2rem;
+
+}
+
+
+
+.input-field {
+    margin: 0.5rem;
+    
+}
+
+.heading {
+   
+    text-align: center;
+    font-family: cursive;
+    color: black;
+    padding: 0.25rem;
+    border-radius: 8px;
+    margin: 0.25rem;
+}
