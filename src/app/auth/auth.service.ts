@@ -18,6 +18,7 @@ export class AuthService {
   };
   constructor(private httpClient:HttpClient) { }
 
+  
   postLoginData(credentials:IFormData):Observable<IUserDetails>{
 return this.httpClient.post(`${this.baseUrl}user/login`,credentials, this.httpOptions) as Observable<IUserDetails>;
   }
