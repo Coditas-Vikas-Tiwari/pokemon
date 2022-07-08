@@ -1,0 +1,80 @@
+<section class="header">
+    <h1>Pokemon Admin</h1>
+    <button  class="logout" (click) = logout()>
+        <mat-icon>power_settings_new</mat-icon>
+      </button>
+</section>
+<div class="add-poke-section">
+    <button class="add-poke-btn" (click) = addPoke()>
+        <mat-icon>playlist_add</mat-icon>
+    </button>
+</div>
+
+<section class="pokemons-table">
+
+    <table mat-table  [dataSource]="pokemons">
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let pokemon">{{ pokemon.name}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell *matCellDef="let pokemon">{{ pokemon.type.name}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="level">
+            <th mat-header-cell *matHeaderCellDef>Level</th>
+            <td mat-cell *matCellDef="let pokemon">{{ pokemon.level}}</td>
+        </ng-container>
+        <ng-container matColumnDef="createdOn">
+            <th mat-header-cell *matHeaderCellDef>createdOn</th>
+            <td mat-cell *matCellDef="let pokemon">{{ pokemon.createdOn}}</td>
+        </ng-container>
+        <ng-container matColumnDef="updatedOn">
+            <th mat-header-cell *matHeaderCellDef>updatedOn</th>
+            <td mat-cell *matCellDef="let pokemon">{{ pokemon.updatedOn}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+            <!-- <mat-header-cell *matHeaderCellDef mat-sort-header> Edit </mat-header-cell> -->
+            <th mat-header-cell *matHeaderCellDef>edit</th>
+            <td mat-cell *matCellDef="let element"> <button mat-icon-button class="iconbutton" (click)="addPoke(); editPoke(element)">
+                <mat-icon class="edit-icon">edit</mat-icon>
+              </button> </td>
+          </ng-container>
+          <ng-container matColumnDef="delete">
+            <!-- <mat-header-cell *matHeaderCellDef mat-sort-header> Delete </mat-header-cell> -->
+            <th mat-header-cell *matHeaderCellDef>delete</th>
+            <td mat-cell *matCellDef="let element"> <button mat-icon-button class="iconbutton" (click)="deletePoke(); editPoke(element)">
+                <mat-icon class="delete-icon">delete</mat-icon>
+              </button> </td>
+          </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let myRowData; columns: displayedColumns"></tr>
+    </table>
+</section>
+
+<section class="popup-section" *ngIf = "isAddPokeBtnClicked">
+    <form [formGroup]="form" (ngSubmit)=  "createPoke(form);updatePoke(form)" class="login-form">
+              
+        <app-input class="input-field" type="text" label = "email" placeholder="Name" formControlName="name" [(ngModel)] = "editData.name" ></app-input>
+        <!-- <span *ngIf=" form.get('email')!.hasError('email') ">* Email is required and should be valid</span> -->
+          
+        <app-input class="input-field" type="number" label = "password" placeholder="Level"  formControlName="level" [(ngModel)] = "editData.level" ></app-input>
+        <!-- <span *ngIf=" form.get('password')!.hasError('minlength')">* Password is required and should be valid</span> -->
+
+        <mat-label>Type</mat-label>
+        <select matNativeControl required formControlName="type" [(ngModel)]="editData.type">
+          <option value="1">Water</option>
+          <option value="2">Fire</option>
+          <option value="3">Leaf</option>
+          <option value="4">Steel</option>
+        </select>
+        <app-button app-button  [form] = "form" class="popup-btn" *ngIf = "isAddPokeBtnClicked">Save</app-button>
+        <app-button app-button [form] = "form" class="popup-btn" *ngIf = "!isAddPokeBtnClicked">Update</app-button>
+     
+        </form>
+    
+</section>
