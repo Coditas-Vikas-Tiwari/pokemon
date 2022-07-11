@@ -7,9 +7,11 @@ import { PokeRoutingModule } from './poke-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import {MatSelectModule} from '@angular/material/select';
+import { PopupComponent } from './home/popup/popup.component';
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    PopupComponent
   ],
   imports: [
     CommonModule,

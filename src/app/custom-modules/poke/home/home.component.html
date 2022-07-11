@@ -5,15 +5,13 @@
       </button>
 </section>
 <div class="add-poke-section">
-    <button class="add-poke-btn" (click) = addPoke()>
+    <button class="add-poke-btn" (click)="changeBtnTextToSave()">
         <mat-icon>playlist_add</mat-icon>
     </button>
 </div>
 
 <section class="pokemons-table">
-
     <table mat-table  [dataSource]="pokemons">
-
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
             <td mat-cell *matCellDef="let pokemon">{{ pokemon.name}}</td>
@@ -40,7 +38,7 @@
         <ng-container matColumnDef="edit">
             <!-- <mat-header-cell *matHeaderCellDef mat-sort-header> Edit </mat-header-cell> -->
             <th mat-header-cell *matHeaderCellDef>edit</th>
-            <td mat-cell *matCellDef="let element"> <button mat-icon-button class="iconbutton" (click)="addPoke(); editPoke(element)">
+            <td mat-cell *matCellDef="let element"> <button mat-icon-button class="iconbutton" (click)="editPoke(element);changeBtnTextToUpdate()">
                 <mat-icon class="edit-icon">edit</mat-icon>
               </button> </td>
           </ng-container>
@@ -56,13 +54,14 @@
     </table>
 </section>
 
-<section class="popup-section" *ngIf = "isAddPokeBtnClicked">
-    <form [formGroup]="form" (ngSubmit)=  "createPoke(form);updatePoke(form)" class="login-form">
+<section class="popup-section" *ngIf = "displayPopup">
+    <form [formGroup]="form" (ngSubmit)=  "submitPopupForm(form)" class="login-form">
               
-        <app-input class="input-field" type="text" label = "email" placeholder="Name" formControlName="name" [(ngModel)] = "editData.name" ></app-input>
+        <app-input #pokeName class="input-field" type="text" label = "email" placeholder="Name" formControlName="name" [(ngModel)] = "editData.name" ></app-input>
+        
         <!-- <span *ngIf=" form.get('email')!.hasError('email') ">* Email is required and should be valid</span> -->
           
-        <app-input class="input-field" type="number" label = "password" placeholder="Level"  formControlName="level" [(ngModel)] = "editData.level" ></app-input>
+        <app-input #pokeLevel class="input-field" type="number" label = "password" placeholder="Level"  formControlName="level" [(ngModel)] = "editData.level" ></app-input>
         <!-- <span *ngIf=" form.get('password')!.hasError('minlength')">* Password is required and should be valid</span> -->
 
         <mat-label>Type</mat-label>
@@ -72,9 +71,11 @@
           <option value="3">Leaf</option>
           <option value="4">Steel</option>
         </select>
-        <app-button app-button  [form] = "form" class="popup-btn" *ngIf = "isAddPokeBtnClicked">Save</app-button>
-        <app-button app-button [form] = "form" class="popup-btn" *ngIf = "!isAddPokeBtnClicked">Update</app-button>
-     
+        <app-button app-button  [form] = "form" class="popup-btn" *ngIf = "isAddPokeBtnClicked && !isUpdatePokeBtnClicked">Save</app-button>
+        <app-button app-button [form] = "form" class="popup-btn" *ngIf = "isUpdatePokeBtnClicked && !isAddPokeBtnClicked">Update</app-button>
+        <button mat-icon-button class="backBtn" (click)="hidePopup()">
+            <mat-icon>keyboard_backspace</mat-icon>
+          </button>
         </form>
     
 </section>

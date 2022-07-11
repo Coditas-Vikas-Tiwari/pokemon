@@ -19,8 +19,11 @@ import { IPoke } from 'src/app/app.types';
 export class HomeComponent implements OnInit {
   form!: FormGroup;
   isAddPokeBtnClicked: boolean = false;
+  isUpdatePokeBtnClicked:boolean = false;
+  displayPopup:boolean = false;
   pokemons: IPoke[] = [];
   editData: any = {};
+
   displayedColumns: string[] = [
     'name',
     'level',
@@ -46,6 +49,7 @@ export class HomeComponent implements OnInit {
 
     this.pokeService.getPokemons().subscribe((res) => {
       this.pokemons = Object(res).data;
+      console.log(this.pokemons);
     });
   }
 
@@ -53,12 +57,34 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-  addPoke() {
-    this.isAddPokeBtnClicked = !this.isAddPokeBtnClicked;
+  changeBtnTextToSave() {
+    this.displayPopup = !this.displayPopup;
+    this.isAddPokeBtnClicked =true;
+    this.isUpdatePokeBtnClicked = false;
+  
+  }
+  changeBtnTextToUpdate() {
+    this.displayPopup = !this.displayPopup;
+    this.isUpdatePokeBtnClicked = true;
+    this.isAddPokeBtnClicked =false;
+  }
+
+  submitPopupForm(form:FormGroup){
+    if(this.isAddPokeBtnClicked){
+      this.createPoke(form);
+      form.reset();
+      this.isAddPokeBtnClicked = !this.isAddPokeBtnClicked;
+    }
+    else if(this.isUpdatePokeBtnClicked){
+      console.log("hi")
+      this.updatePoke(form);
+      form.reset();
+      this.isUpdatePokeBtnClicked = !this.isUpdatePokeBtnClicked
+    }
+    this.displayPopup = !this.displayPopup;
   }
 
   createPoke(form: FormGroup) {
-    this.isAddPokeBtnClicked = false;
     this.pokeService.createPokemon(form.value).subscribe((res) => {
       this.pokemons.push(Object(res).data);
       console.log(res);
@@ -66,10 +92,11 @@ export class HomeComponent implements OnInit {
     this.pokeService.getPokemons().subscribe((res) => {
       this.pokemons = Object(res).data;
     });
+    
   }
 
   editPoke(data: IUpdatePoke) {
-    // console.log(data);
+    console.log(data);
     this.editData.name = data.name;
     this.editData.level = data.level;
     this.editData.type = data.type;
@@ -79,7 +106,7 @@ export class HomeComponent implements OnInit {
   }
   updatePoke(form: FormGroup) {
     console.log(this.editData);
-    this.pokeService.updatePokemon(this.editData).subscribe((res) => {
+    this.pokeService.updatePokemon({...form.value,...this.editData}).subscribe((res) => {
       // console.log(res);
     });
     this.pokeService.getPokemons().subscribe((res) => {
@@ -89,9 +116,12 @@ export class HomeComponent implements OnInit {
 
   deletePoke() {
     this.pokeService.deletePokemon(this.editData).subscribe((res) => {
-
     });
     
+  }
+  hidePopup(){
+    this.displayPopup = !this.displayPopup
+   console.log('hi')
   }
   
   dataSource = new MatTableDataSource(this.pokemons);

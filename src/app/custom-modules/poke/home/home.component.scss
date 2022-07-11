@@ -83,6 +83,7 @@ table {
 }
 .iconbutton{
     background-color: transparent;
+    text-align: center;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -90,4 +91,14 @@ table {
 
 .iconbutton:hover{
     background-color: black;
+}
+.backBtn{
+   background-color: transparent;
+   border: none;
+   padding: 0 1rem;
+   border-radius: 8px;
+}
+.backBtn:hover{
+    background-color: black;
+    color: white;
 }
